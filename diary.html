@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>יומן משפחתי</title>
+  <link rel="stylesheet" href="diary.css">
+</head>
+<body>
+  <header class="diary-header">
+    <button onclick="window.location.href='home.html'">⬅ חזרה</button>
+    <h1>יומן משפחתי</h1>
+    <div id="currentDate"></div>
+  </header>
+
+  <main>
+    <div id="calendar"></div>
+
+    <!-- חלונית הוספת/עריכת אירוע -->
+    <div id="eventForm" style="display:none;">
+      <h2>אירוע ליום <span id="selectedDay"></span></h2>
+      <input type="text" id="eventTitle" placeholder="כותרת אירוע">
+      <textarea id="eventDesc" placeholder="תיאור האירוע"></textarea>
+      <button id="saveEventBtn">💾 שמור</button>
+      <button id="cancelEventBtn">❌ ביטול</button>
+    </div>
+  </main>
+
+  <script src="diary.js"></script>
+</body>
+</html>
