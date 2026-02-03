@@ -1,7 +1,6 @@
 // login.js (Firebase version)
-
 import { signInWithEmailAndPassword } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 import { 
   doc, 
@@ -129,3 +128,4 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
+
