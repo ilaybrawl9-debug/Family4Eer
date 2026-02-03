@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>תזכורות משפחתיות</title>
+  <link rel="stylesheet" href="reminders.css">
+</head>
+<body>
+  <header class="reminders-header">
+    <button onclick="window.location.href='home.html'">⬅ חזרה</button>
+    <h1>תזכורות</h1>
+  </header>
+
+  <main>
+    <div class="add-reminder">
+      <input type="text" id="reminderInput" placeholder="כתוב תזכורת חדשה...">
+      <button id="addReminderBtn">➕</button>
+    </div>
+
+    <ul id="reminderList"></ul>
+  </main>
+
+  <script src="reminders.js"></script>
+</body>
+</html>
