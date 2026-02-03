@@ -1,20 +1,18 @@
-// login.js (Firebase version)
-import { signInWithEmailAndPassword } 
-  from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-import { 
-  doc, 
-  getDoc, 
-  updateDoc 
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  const auth = window.auth;
   const db = window.db;
 
   const loginForm = document.getElementById("loginForm");
   const messageDiv = document.getElementById("message");
+
+  const familySection = document.getElementById("familySection");
+  const alreadyInFamily = document.getElementById("alreadyInFamily");
+  const joinFamilyForm = document.getElementById("joinFamilyForm");
+  const familyNameText = document.getElementById("familyNameText");
+  const familyCodeText = document.getElementById("familyCodeText");
+  const joinBtn = document.getElementById("joinFamilyBtn");
 
   function showMessage(msg, type) {
     messageDiv.textContent = msg;
@@ -32,17 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const email = `${username}@familyapp.local`;
-
     try {
-      // 🔐 התחברות
-      const cred = await signInWithEmailAndPassword(auth, email, password);
-      const uid = cred.user.uid;
-
-      showMessage("התחברת בהצלחה ✅", "success");
-
-      // 👤 שליפת משתמש מ-Firestore
-      const userRef = doc(db, "users", uid);
+      // שליפת המשתמש מ-Firestore
+      const userRef = doc(db, "users", username);
       const userSnap = await getDoc(userRef);
 
       if (!userSnap.exists()) {
@@ -52,21 +42,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const userData = userSnap.data();
 
-      setupFamilySection(uid, userData);
+      // בדיקת סיסמה
+      if (userData.password !== password) {
+        showMessage("סיסמה שגויה", "error");
+        return;
+      }
+
+      showMessage("✅ התחברת בהצלחה!", "success");
+
+      // שמירת המשתמש ב-sessionStorage לצורך שימוש ב-home/chat
+      sessionStorage.setItem("loggedUser", JSON.stringify({
+        username,
+        role: userData.role,
+        familyCode: userData.familyCode || null,
+        familyName: userData.familyName || null
+      }));
+
+      setupFamilySection(userData);
 
     } catch (err) {
-      showMessage("שם משתמש או סיסמה שגויים", "error");
+      console.error(err);
+      showMessage("אירעה שגיאה בכניסה", "error");
     }
   });
 
-  async function setupFamilySection(uid, userData) {
-    const familySection = document.getElementById("familySection");
-    const alreadyInFamily = document.getElementById("alreadyInFamily");
-    const joinFamilyForm = document.getElementById("joinFamilyForm");
-    const familyNameText = document.getElementById("familyNameText");
-    const familyCodeText = document.getElementById("familyCodeText");
-    const joinBtn = document.getElementById("joinFamilyBtn");
-
+  function setupFamilySection(userData) {
     familySection.style.display = "block";
 
     // אם כבר יש משפחה
@@ -78,8 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
       familyCodeText.textContent = userData.familyCode;
 
       setTimeout(() => {
-        window.location.href =
-          userData.role === "admin" ? "admin.html" : "home.html";
+        window.location.href = userData.role === "admin" ? "admin.html" : "home.html";
       }, 1000);
 
       return;
@@ -96,8 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // חיפוש משפחה לפי קוד
-      const familyRef = doc(db, "families", code);
+      const familyRef = doc(db, "users", code); // כאן נבדוק את המשפחה לפי קוד
       const familySnap = await getDoc(familyRef);
 
       if (!familySnap.exists()) {
@@ -107,8 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const familyData = familySnap.data();
 
-      // עדכון המשתמש
-      await updateDoc(doc(db, "users", uid), {
+      // עדכון המשתמש עם קוד המשפחה והשם שלה
+      await updateDoc(doc(db, "users", userData.username), {
         familyCode: code,
         familyName: familyData.familyName
       });
@@ -121,8 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
       joinFamilyForm.style.display = "none";
 
       setTimeout(() => {
-        window.location.href =
-          userData.role === "admin" ? "admin.html" : "home.html";
+        window.location.href = userData.role === "admin" ? "admin.html" : "home.html";
       }, 1200);
     };
   }
