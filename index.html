@@ -49,7 +49,7 @@
   <!-- Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyChsibo5Ga9f5U0Xkyhalrtuq1AAfjBdqE",
@@ -60,15 +60,19 @@
       appId: "1:444731850132:web:d994154e5d17c5e4032381"
     };
 
+    // אתחול Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    window.db = db; // בשביל script.js
+    // מאפשר script.js להשתמש ב-db
+    window.db = db;
   </script>
 
   <script type="module" src="script.js"></script>
 </body>
 </html>
+
+
 
 
 
