@@ -1,84 +1,35 @@
 <!DOCTYPE html>
 <html lang="he">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>הרשמה - משפחה</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<title>הרשמה</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container auth-container">
-    <h1>הרשמה</h1>
-    <form id="registerForm">
-      <label for="username">שם משתמש:</label>
-      <input type="text" id="username" required />
+<div class="container">
+  <h2>הרשמה</h2>
 
-      <label for="password">סיסמה:</label>
-      <input type="password" id="password" required />
-      <button type="button" id="togglePassword" class="small-btn">👀</button>
+  <input type="email" id="email" placeholder="אימייל">
+  <input type="password" id="password" placeholder="סיסמה (לפחות 6 תווים)">
+  <input type="text" id="familyCode" placeholder="קוד משפחה (ליצירת משפחה חדשה)">
+  
+  <label>
+    <input type="checkbox" id="isAdmin"> חשבון מנהל
+  </label>
+  <input type="password" id="adminCode" placeholder="קוד מנהל" style="display:none">
 
-      <label for="role">בחר סוג משתמש:</label>
-      <select id="role" required>
-        <option value="child">ילד 👦</option>
-        <option value="guest">אורח 👤</option>
-        <option value="admin">מנהל 🧑‍💼</option>
-      </select>
+  <button id="registerBtn">הרשמה</button>
+  <p id="message"></p>
 
-      <div id="adminCodeContainer" style="display:none;">
-        <label for="adminCode">קוד סודי למנהל:</label>
-        <input type="password" id="adminCode" placeholder="הכנס קוד סודי" />
-      </div>
+  <p>כבר רשום? <a href="login.html">התחבר כאן</a></p>
+</div>
 
-      <button type="button" id="toggleFamily" class="small-btn">➕ יצירת משפחה</button>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
 
-      <div id="familyContainer" style="display:none; margin-top:10px;">
-        <label for="familyName">שם משפחה:</label>
-        <input type="text" id="familyName" placeholder="שם משפחה ייחודי" />
-
-        <label for="familyCode">קוד משפחה:</label>
-        <input type="text" id="familyCode" placeholder="קוד ייחודי" />
-      </div>
-
-      <button type="submit">הרשם</button>
-    </form>
-
-    <p>כבר רשום? <a href="login.html">התחבר כאן</a></p>
-    <div id="message" class="message"></div>
-  </div>
-
-  <!-- Firebase -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-    import { getFirestore } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyChsibo5Ga9f5U0Xkyhalrtuq1AAfjBdqE",
-      authDomain: "familyapp-daa98.firebaseapp.com",
-      projectId: "familyapp-daa98",
-      storageBucket: "familyapp-daa98.appspot.com",
-      messagingSenderId: "444731850132",
-      appId: "1:444731850132:web:d994154e5d17c5e4032381"
-    };
-
-    // אתחול Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    // מאפשר script.js להשתמש ב-db
-    window.db = db;
-  </script>
-
-  <script type="module" src="script.js"></script>
+<!-- JS הרשמה -->
+<script src="register.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
