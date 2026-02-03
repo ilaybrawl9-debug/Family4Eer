@@ -1,0 +1,77 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6fb;
+  direction: rtl;
+}
+
+.top-bar {
+  padding: 15px;
+  background: #4a90e2;
+  color: white;
+  text-align: right;
+}
+
+.settings-container {
+  max-width: 500px;
+  margin: 30px auto;
+  text-align: center;
+}
+
+.profile-section img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #4a90e2;
+}
+
+.profile-section input {
+  margin-top: 10px;
+}
+
+.settings-box {
+  background: white;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.settings-box input,
+.settings-box select {
+  width: 90%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.settings-box button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #4a90e2;
+  color: white;
+  cursor: pointer;
+}
+
+.settings-box button:hover {
+  background: #357ABD;
+}
+
+.back-btn {
+  margin-top: 30px;
+  padding: 12px 25px;
+  border-radius: 12px;
+  background: #666;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#message {
+  margin-top: 15px;
+  font-weight: bold;
+}
