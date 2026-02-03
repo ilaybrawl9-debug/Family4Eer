@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>הגדרות</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+
+<header class="top-bar">
+  <div id="currentDate"></div>
+</header>
+
+<main class="settings-container">
+
+  <!-- פרופיל -->
+  <div class="profile-section">
+    <img id="profileImage" src="default-avatar.png" alt="פרופיל">
+    <input type="file" id="uploadImage" accept="image/*">
+    <p id="usernameDisplay"></p>
+  </div>
+
+  <!-- שינוי סיסמה -->
+  <div class="settings-box">
+    <h3>🔒 שינוי סיסמה</h3>
+    <input type="password" id="newPassword" placeholder="סיסמה חדשה">
+    <button id="changePasswordBtn">שמור סיסמה</button>
+  </div>
+
+  <!-- נגישות -->
+  <div class="settings-box">
+    <h3>🔎 נגישות</h3>
+    <button id="increaseTextBtn">הגדל טקסט</button>
+    <button id="resetTextBtn">איפוס גודל טקסט</button>
+  </div>
+
+  <!-- שינוי תפקיד -->
+  <div class="settings-box">
+    <h3>⚙️ שינוי תפקיד</h3>
+    <select id="roleSelect">
+      <option value="child">בן משפחה</option>
+      <option value="guest">אורח</option>
+      <option value="admin">מנהל</option>
+    </select>
+
+    <input type="password" id="adminSecret" placeholder="קוד מנהל" style="display:none;">
+    <button id="changeRoleBtn">שנה תפקיד</button>
+  </div>
+
+  <button class="back-btn" onclick="window.location.href='home.html'">⬅ חזרה לדף הבית</button>
+
+  <div id="message"></div>
+</main>
+
+<script src="settings.js"></script>
+</body>
+</html>
