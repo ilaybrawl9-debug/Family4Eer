@@ -48,10 +48,29 @@
     <div id="message" class="message"></div>
   </div>
 
-  <!-- Firebase + Script -->
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc, collection } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyChsibo5Ga9f5U0Xkyhalrtuq1AAfjBdqE",
+      authDomain: "familyapp-daa98.firebaseapp.com",
+      projectId: "familyapp-daa98",
+      storageBucket: "familyapp-daa98.firebasestorage.app",
+      messagingSenderId: "444731850132",
+      appId: "1:444731850132:web:d994154e5d17c5e4032381"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    window.db = getFirestore(app);
+  </script>
+
   <script type="module" src="script.js"></script>
 </body>
 </html>
+
+
 
 
 
