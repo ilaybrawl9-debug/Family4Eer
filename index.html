@@ -29,10 +29,8 @@
         <input type="password" id="adminCode" placeholder="הכנס קוד סודי" />
       </div>
 
-      <!-- כפתור יצירת משפחה -->
       <button type="button" id="toggleFamily" class="small-btn">➕ יצירת משפחה</button>
 
-      <!-- שדות משפחה (מוסתרים בהתחלה) -->
       <div id="familyContainer" style="display:none; margin-top:10px;">
         <label for="familyName">שם משפחה:</label>
         <input type="text" id="familyName" placeholder="שם משפחה ייחודי" />
@@ -51,24 +49,27 @@
   <!-- Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, setDoc, collection } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyChsibo5Ga9f5U0Xkyhalrtuq1AAfjBdqE",
       authDomain: "familyapp-daa98.firebaseapp.com",
       projectId: "familyapp-daa98",
-      storageBucket: "familyapp-daa98.firebasestorage.app",
+      storageBucket: "familyapp-daa98.appspot.com",
       messagingSenderId: "444731850132",
       appId: "1:444731850132:web:d994154e5d17c5e4032381"
     };
 
     const app = initializeApp(firebaseConfig);
-    window.db = getFirestore(app);
+    const db = getFirestore(app);
+
+    window.db = db; // בשביל script.js
   </script>
 
   <script type="module" src="script.js"></script>
 </body>
 </html>
+
 
 
 
