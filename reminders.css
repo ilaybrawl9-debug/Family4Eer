@@ -1,0 +1,77 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  direction: rtl;
+  background: #fffbe6;
+}
+
+.reminders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: #f39c12;
+  color: white;
+}
+
+.reminders-header button {
+  background: white;
+  color: #f39c12;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.add-reminder {
+  display: flex;
+  padding: 15px;
+  gap: 10px;
+}
+
+.add-reminder input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.add-reminder button {
+  background: #f39c12;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0 15px;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+#reminderList {
+  list-style: none;
+  padding: 0 15px;
+}
+
+#reminderList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+#reminderList li.done span {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.reminder-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-left: 5px;
+}
