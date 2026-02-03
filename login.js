@@ -1,52 +1,66 @@
+// login.js (Firebase version)
+
+import { signInWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import { 
+  doc, 
+  getDoc, 
+  updateDoc 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 document.addEventListener("DOMContentLoaded", () => {
 
-  function getUsers() {
-    return JSON.parse(localStorage.getItem('users') || '{}');
-  }
+  const auth = window.auth;
+  const db = window.db;
 
-  function saveUsers(users) {
-    localStorage.setItem('users', JSON.stringify(users));
-  }
+  const loginForm = document.getElementById("loginForm");
+  const messageDiv = document.getElementById("message");
 
   function showMessage(msg, type) {
-    const msgDiv = document.getElementById('message');
-    if (!msgDiv) return;
-    msgDiv.textContent = msg;
-    msgDiv.className = 'message ' + (type === 'error' ? 'error' : 'success');
+    messageDiv.textContent = msg;
+    messageDiv.className = "message " + (type === "error" ? "error" : "success");
   }
 
-  const loginForm = document.getElementById('loginForm');
-  if (!loginForm) return;
-
-  loginForm.addEventListener('submit', e => {
+  loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
     if (!username || !password) {
-      showMessage('אנא מלא את כל השדות', 'error');
+      showMessage("אנא מלא את כל השדות", "error");
       return;
     }
 
-    const users = getUsers();
+    const email = `${username}@familyapp.local`;
 
-    if (!users[username] || users[username].password !== password) {
-      showMessage('שם משתמש או סיסמה שגויים', 'error');
-      return;
+    try {
+      // 🔐 התחברות
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      const uid = cred.user.uid;
+
+      showMessage("התחברת בהצלחה ✅", "success");
+
+      // 👤 שליפת משתמש מ-Firestore
+      const userRef = doc(db, "users", uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        showMessage("משתמש לא נמצא במערכת", "error");
+        return;
+      }
+
+      const userData = userSnap.data();
+
+      setupFamilySection(uid, userData);
+
+    } catch (err) {
+      showMessage("שם משתמש או סיסמה שגויים", "error");
     }
-
-    // שמירת המשתמש המחובר
-    sessionStorage.setItem(
-      'loggedUser',
-      JSON.stringify({ username, role: users[username].role })
-    );
-
-    // עכשיו מציגים את ה־familySection במקום לעבור מיד
-    setupFamilySection(username, users);
   });
 
-  function setupFamilySection(username, users) {
+  async function setupFamilySection(uid, userData) {
     const familySection = document.getElementById("familySection");
     const alreadyInFamily = document.getElementById("alreadyInFamily");
     const joinFamilyForm = document.getElementById("joinFamilyForm");
@@ -54,67 +68,62 @@ document.addEventListener("DOMContentLoaded", () => {
     const familyCodeText = document.getElementById("familyCodeText");
     const joinBtn = document.getElementById("joinFamilyBtn");
 
-    if (!familySection) return;
     familySection.style.display = "block";
 
-    const user = users[username];
-
     // אם כבר יש משפחה
-    if (user.familyCode) {
+    if (userData.familyCode) {
       alreadyInFamily.style.display = "block";
       joinFamilyForm.style.display = "none";
 
-      familyNameText.textContent = user.familyName;
-      familyCodeText.textContent = user.familyCode;
+      familyNameText.textContent = userData.familyName;
+      familyCodeText.textContent = userData.familyCode;
 
-      // מעבר לדף הבית אחרי 1 שניה
       setTimeout(() => {
-        const role = user.role;
-        window.location.href = role === 'admin' ? 'admin.html' : 'home.html';
+        window.location.href =
+          userData.role === "admin" ? "admin.html" : "home.html";
       }, 1000);
 
       return;
     }
 
-    // אם אין משפחה – מאפשרים להצטרף
+    // אין משפחה – אפשר להצטרף
     alreadyInFamily.style.display = "none";
     joinFamilyForm.style.display = "block";
 
-    joinBtn.onclick = () => {
+    joinBtn.onclick = async () => {
       const code = document.getElementById("joinFamilyCode").value.trim();
       if (!code) {
         showMessage("יש להזין קוד משפחה", "error");
         return;
       }
 
-      const familyOwner = Object.values(users).find(
-        u => u.familyCode === code
-      );
+      // חיפוש משפחה לפי קוד
+      const familyRef = doc(db, "families", code);
+      const familySnap = await getDoc(familyRef);
 
-      if (!familyOwner) {
+      if (!familySnap.exists()) {
         showMessage("❌ קוד משפחה שגוי", "error");
         return;
       }
 
- 
+      const familyData = familySnap.data();
 
-
-      // צירוף המשתמש למשפחה
-      user.familyCode = familyOwner.familyCode;
-      user.familyName = familyOwner.familyName;
-      saveUsers(users);
+      // עדכון המשתמש
+      await updateDoc(doc(db, "users", uid), {
+        familyCode: code,
+        familyName: familyData.familyName
+      });
 
       showMessage("✅ הצטרפת למשפחה בהצלחה", "success");
 
+      familyNameText.textContent = familyData.familyName;
+      familyCodeText.textContent = code;
       alreadyInFamily.style.display = "block";
       joinFamilyForm.style.display = "none";
-      familyNameText.textContent = familyOwner.familyName;
-      familyCodeText.textContent = familyOwner.familyCode;
 
-      // מעבר לדף הבית אחרי 1.2 שניות
       setTimeout(() => {
-        const role = user.role;
-        window.location.href = role === 'admin' ? 'admin.html' : 'home.html';
+        window.location.href =
+          userData.role === "admin" ? "admin.html" : "home.html";
       }, 1200);
     };
   }
