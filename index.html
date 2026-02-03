@@ -29,8 +29,10 @@
         <input type="password" id="adminCode" placeholder="הכנס קוד סודי" />
       </div>
 
+      <!-- כפתור יצירת משפחה -->
       <button type="button" id="toggleFamily" class="small-btn">➕ יצירת משפחה</button>
 
+      <!-- שדות משפחה (מוסתרים בהתחלה) -->
       <div id="familyContainer" style="display:none; margin-top:10px;">
         <label for="familyName">שם משפחה:</label>
         <input type="text" id="familyName" placeholder="שם משפחה ייחודי" />
@@ -46,37 +48,11 @@
     <div id="message" class="message"></div>
   </div>
 
-  <!-- 🔥 Firebase -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyChsibo5Ga9f5U0Xkyhalrtuq1AAfjBdqE",
-      authDomain: "familyapp-daa98.firebaseapp.com",
-      projectId: "familyapp-daa98",
-      storageBucket: "familyapp-daa98.firebasestorage.app",
-      messagingSenderId: "444731850132",
-      appId: "1:444731850132:web:d994154e5d17c5e4032381",
-      measurementId: "G-KNQP6WXVEY"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    // חשיפה ל-script.js
-    window.firebaseApp = app;
-    window.auth = auth;
-    window.db = db;
-  </script>
-
-  <script src="script.js"></script>
+  <!-- Firebase + Script -->
+  <script type="module" src="script.js"></script>
 </body>
 </html>
+
 
 
 
