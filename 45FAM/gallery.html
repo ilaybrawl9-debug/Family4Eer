@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>גלריה משפחתית</title>
+  <link rel="stylesheet" href="gallery.css">
+</head>
+<body>
+  <header class="gallery-header">
+    <button class="back-btn" onclick="window.location.href='home.html'">⬅ חזרה</button>
+    <h1>גלריה משפחתית</h1>
+  </header>
+
+  <main>
+    <div class="upload-section">
+      <input type="file" id="imageInput" accept="image/*">
+      <button id="uploadBtn">📤 העלה תמונה</button>
+    </div>
+
+    <div id="galleryContainer" class="gallery-grid">
+      <!-- תמונות יתווספו כאן -->
+    </div>
+  </main>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" style="display:none;">
+    <span id="closeLightbox">&times;</span>
+    <img id="lightboxImg">
+  </div>
+
+  <script src="gallery.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>משחקים משפחתיים</title>
+  <link rel="stylesheet" href="games.css">
+</head>
+<body>
+  <header class="games-header">
+    <button onclick="window.location.href='home.html'">⬅ חזרה</button>
+    <h1>משחקים משפחתיים</h1>
+  </header>
+
+  <main>
+    <div class="games-container">
+      <button class="game-btn" id="ticTacToeBtn">❌⭕ איקס-עיגול</button>
+      <button class="game-btn" id="guessNumberBtn">🔢 נחש מספר</button>
+      <button class="game-btn" id="memoryBtn">🧠 משחק זיכרון</button>
+    </div>
+
+    <div id="gameArea" class="game-area">
+      <!-- כאן יופיע המשחק שנבחר -->
+    </div>
+  </main>
+
+  <script src="games.js"></script>
+</body>
+</html>

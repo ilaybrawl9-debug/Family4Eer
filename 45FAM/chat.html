@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>צ׳אט משפחתי</title>
+  <link rel="stylesheet" href="chat.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="chat-header">
+    <button class="back-btn" onclick="window.location.href='home.html'">⬅ חזרה</button>
+    <h1>צ׳אט משפחתי</h1>
+  </header>
+
+  <!-- הודעת מערכת / אזהרה -->
+  <div id="systemNotice" class="system-notice" style="display:none;"></div>
+
+  <!-- אזור הצ׳אט -->
+  <main class="chat-container" id="chatContainer"></main>
+
+  <!-- אזור כתיבה -->
+  <footer class="chat-input">
+    <input 
+      type="text" 
+      id="messageInput" 
+      placeholder="כתוב הודעה..." 
+      autocomplete="off"
+    />
+    <button id="sendMessageBtn">➤</button>
+  </footer>
+
+  <!-- כפתורי מנהל בלבד -->
+  <div id="adminControls" class="admin-controls" style="display:none;">
+    <button id="muteUserBtn">🔇 השתקת משתמש</button>
+    <button id="warnUserBtn">⚠️ שלח אזהרה</button>
+    <button id="resetChatBtn">🗑 איפוס צ׳אט</button>
+  </div>
+
+  <script src="chat.js"></script>
+</body>
+</html>

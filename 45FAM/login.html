@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>כניסה - משפחה</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container auth-container">
+    <h1>התחברות</h1>
+
+    <form id="loginForm">
+      <label for="username">שם משתמש:</label>
+      <input type="text" id="username" required />
+      
+      <label for="password">סיסמא:</label>
+      <input type="password" id="password" required />
+
+      <button type="submit">התחבר</button>
+    </form>
+
+    <p>אין לך משתמש? <a href="index.html">הרשם כאן</a></p>
+
+    <div id="message" class="message"></div>
+
+    <!-- ===== הצטרפות/הצגת משפחה ===== -->
+    <div id="familySection" style="display:none; margin-top:15px;">
+      <h4>משפחה</h4>
+
+      <!-- אם כבר יש משפחה -->
+      <div id="alreadyInFamily" style="display:none;">
+        <p>
+          אתה שייך למשפחת: <strong id="familyNameText"></strong><br>
+          קוד משפחה: <strong id="familyCodeText"></strong>
+        </p>
+      </div>
+
+      <!-- אם אין משפחה – אפשר להצטרף -->
+      <div id="joinFamilyForm">
+        <label for="joinFamilyCode">קוד משפחה:</label>
+        <input type="text" id="joinFamilyCode" placeholder="הכנס קוד משפחה">
+        <button type="button" id="joinFamilyBtn">הצטרף</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>

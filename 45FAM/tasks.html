@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>לוח מטלות משפחתי</title>
+  <link rel="stylesheet" href="tasks.css">
+</head>
+<body>
+  <header class="tasks-header">
+    <button onclick="window.location.href='home.html'">⬅ חזרה</button>
+    <h1>לוח מטלות</h1>
+  </header>
+
+  <main>
+    <div class="add-task">
+      <input type="text" id="taskInput" placeholder="כתוב מטלה חדשה..." />
+      <input type="date" id="taskDate" />
+      <select id="taskStatus">
+        <option value="open">פתוחה</option>
+        <option value="in-progress">בעבודה</option>
+        <option value="completed">הושלמה</option>
+      </select>
+      <button id="addTaskBtn">➕</button>
+    </div>
+
+    <ul id="taskList"></ul>
+  </main>
+
+  <script src="tasks.js"></script>
+</body>
+</html>

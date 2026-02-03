@@ -1,0 +1,100 @@
+/* Reset בסיסי */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  direction: rtl;
+}
+
+.container {
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  width: 320px;
+  text-align: center;
+}
+
+.auth-container h1 {
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: 1.5px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  box-shadow: 0 0 8px 2px #8ab4f8;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  color: #2575fc;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #d6d6d6;
+}
+
+.message {
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+.message.error {
+  color: #ff6b6b;
+}
+
+.message.success {
+  color: #88ff88;
+}
+
+p {
+  margin-top: 12px;
+  font-size: 0.9rem;
+}
+
+p a {
+  color: #fff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+p a:hover {
+  color: #cce5ff;
+}

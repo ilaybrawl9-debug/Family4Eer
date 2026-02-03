@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>הרשמה - משפחה</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container auth-container">
+    <h1>הרשמה</h1>
+    <form id="registerForm">
+      <label for="username">שם משתמש:</label>
+      <input type="text" id="username" required />
+
+      <label for="password">סיסמה:</label>
+      <input type="password" id="password" required />
+      <button type="button" id="togglePassword" class="small-btn">👀</button>
+
+      <label for="role">בחר סוג משתמש:</label>
+      <select id="role" required>
+        <option value="child">ילד 👦</option>
+        <option value="guest">אורח 👤</option>
+        <option value="admin">מנהל 🧑‍💼</option>
+      </select>
+
+      <div id="adminCodeContainer" style="display:none;">
+        <label for="adminCode">קוד סודי למנהל:</label>
+        <input type="password" id="adminCode" placeholder="הכנס קוד סודי" />
+      </div>
+
+      <!-- כפתור יצירת משפחה -->
+      <button type="button" id="toggleFamily" class="small-btn">➕ יצירת משפחה</button>
+
+      <!-- שדות משפחה (מוסתרים בהתחלה) -->
+      <div id="familyContainer" style="display:none; margin-top:10px;">
+        <label for="familyName">שם משפחה:</label>
+        <input type="text" id="familyName" placeholder="שם משפחה ייחודי" />
+
+        <label for="familyCode">קוד משפחה:</label>
+        <input type="text" id="familyCode" placeholder="קוד ייחודי" />
+      </div>
+
+      <button type="submit">הרשם</button>
+    </form>
+
+    <p>כבר רשום? <a href="login.html">התחבר כאן</a></p>
+    <div id="message" class="message"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
