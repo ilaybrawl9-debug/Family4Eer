@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>דף הבית - משפחה</title>
+  <link rel="stylesheet" href="home.css">
+</head>
+<body>
+  <header>
+    <div class="top-bar">
+      <div id="currentDate"></div>
+      <button id="menuBtn">☰ תפריט </button>
+    </div>
+    <div id="menuDropdown" class="menu-dropdown" style="display:none;">
+      <ul>
+        <li><a href="settings.html">⚙️ הגדרות</a></li>
+        <li><a href="#" id="logoutBtn">🚪 התנתקות</a></li>
+        <li><a href="#" id="familyMembersBtn">👨‍👩‍👧‍👦  רשימת בני משפחה מחוברים</a></li>
+      </ul>
+      <div id="familyMembersList" style="display:none;"></div>
+    </div>
+  </header>
+
+  <main>
+    <h1 id="welcomeMessage"></h1>
+
+    <div class="buttons-container">
+      <button class="main-btn" onclick="window.location.href='diary.html'">📓 יומן</button>
+      <button class="main-btn" onclick="window.location.href='chat.html'">💬 צ׳אט משפחתי</button>
+      <button class="main-btn" onclick="window.location.href='reminders.html'">⏰ תזכורות</button>
+      <button class="main-btn" onclick="window.location.href='tasks.html'">📝 לוח מטלות</button>
+      <button class="main-btn" onclick="window.location.href='games.html'">🎮 משחקים</button>
+      <button class="main-btn" onclick="window.location.href='gallery.html'">🖼 גלריה</button>
+      <button class="main-btn" onclick="window.location.href='admin.html'">👨🏽‍✈️ דף מנהל</button>
+    </div>
+  </main>
+
+  <script src="home.js"></script>
+</body>
+</html>
+
