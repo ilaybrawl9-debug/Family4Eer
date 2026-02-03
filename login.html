@@ -42,11 +42,10 @@
     </div>
   </div>
 
-  <!-- 🔥 Firebase -->
+  <!-- Firebase SDK -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyChsibo5Ga9f5U0Xkyhalrtuq1AAfjBdqE",
@@ -58,10 +57,10 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    window.auth = getAuth(app);
     window.db = getFirestore(app);
   </script>
 
-  <script src="login.js"></script>
+  <script src="login.js" type="module"></script>
 </body>
 </html>
+
