@@ -1,31 +1,54 @@
 <!DOCTYPE html>
 <html lang="he">
 <head>
-<meta charset="UTF-8">
-<title>התחברות</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>כניסה - משפחה</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div class="container">
-  <h2>התחברות</h2>
+  <div class="container auth-container">
+    <h1>התחברות</h1>
 
-  <input type="email" id="email" placeholder="אימייל">
-  <input type="password" id="password" placeholder="סיסמה">
+    <form id="loginForm">
+      <label for="username">שם משתמש:</label>
+      <input type="text" id="username" required />
+      
+      <label for="password">סיסמא:</label>
+      <input type="password" id="password" required />
 
-  <button id="loginBtn">התחבר</button>
-  <p id="message"></p>
+      <button type="submit">התחבר</button>
+    </form>
 
-  <p>אין חשבון? <a href="index.html">הרשם כאן</a></p>
-</div>
+    <p>אין לך משתמש? <a href="index.html">הרשם כאן</a></p>
 
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+    <div id="message" class="message"></div>
 
-<script src="login.js"></script>
+    <!-- ===== הצטרפות/הצגת משפחה ===== -->
+    <div id="familySection" style="display:none; margin-top:15px;">
+      <h4>משפחה</h4>
+
+      <!-- אם כבר יש משפחה -->
+      <div id="alreadyInFamily" style="display:none;">
+        <p>
+          אתה שייך למשפחת: <strong id="familyNameText"></strong><br>
+          קוד משפחה: <strong id="familyCodeText"></strong>
+        </p>
+      </div>
+
+      <!-- אם אין משפחה – אפשר להצטרף -->
+      <div id="joinFamilyForm">
+        <label for="joinFamilyCode">קוד משפחה:</label>
+        <input type="text" id="joinFamilyCode" placeholder="הכנס קוד משפחה">
+        <button type="button" id="joinFamilyBtn">הצטרף</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="login.js"></script>
 </body>
 </html>
+
 
 
 
