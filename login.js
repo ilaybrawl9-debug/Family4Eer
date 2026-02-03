@@ -1,52 +1,124 @@
-// Firebase כבר מוגדר ב-login.html
-const firebaseConfig = {
-  apiKey: "AIzaSyChsibo5Ga9f5U0Xkyhalrtuq1AAfjBdqE",
-  authDomain: "familyapp-daa98.firebaseapp.com",
-  projectId: "familyapp-daa98",
-  storageBucket: "familyapp-daa98.firebasestorage.app",
-  messagingSenderId: "444731850132",
-  appId: "1:444731850132:web:d994154e5d17c5e4032381",
-  measurementId: "G-KNQP6WXVEY"
-};
+document.addEventListener("DOMContentLoaded", () => {
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-const emailInputLogin = document.getElementById("email");
-const passwordInputLogin = document.getElementById("password");
-const loginBtn = document.getElementById("loginBtn");
-const messageLogin = document.getElementById("message");
-
-loginBtn.addEventListener("click", async () => {
-  const email = emailInputLogin.value.trim();
-  const password = passwordInputLogin.value.trim();
-
-  messageLogin.style.color = "red";
-
-  try {
-    const userCredential = await auth.signInWithEmailAndPassword(email, password);
-    const uid = userCredential.user.uid;
-
-    const userDoc = await db.collection("users").doc(uid).get();
-    if (!userDoc.exists) return messageLogin.textContent = "משתמש לא קיים";
-
-    const userData = userDoc.data();
-
-    if (userData.isAdmin) {
-      window.location.href = "admin.html";
-    } else if (userData.familyCode) {
-      window.location.href = "home.html";
-    } else {
-      const code = prompt("הכנס קוד משפחה כדי להצטרף למשפחה:");
-      if (code === userData.familyCode) {
-        window.location.href = "home.html";
-      } else {
-        messageLogin.textContent = "קוד משפחה לא נכון";
-      }
-    }
-  } catch (error) {
-    messageLogin.textContent = error.message;
+  function getUsers() {
+    return JSON.parse(localStorage.getItem('users') || '{}');
   }
+
+  function saveUsers(users) {
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+
+  function showMessage(msg, type) {
+    const msgDiv = document.getElementById('message');
+    if (!msgDiv) return;
+    msgDiv.textContent = msg;
+    msgDiv.className = 'message ' + (type === 'error' ? 'error' : 'success');
+  }
+
+  const loginForm = document.getElementById('loginForm');
+  if (!loginForm) return;
+
+  loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    if (!username || !password) {
+      showMessage('אנא מלא את כל השדות', 'error');
+      return;
+    }
+
+    const users = getUsers();
+
+    if (!users[username] || users[username].password !== password) {
+      showMessage('שם משתמש או סיסמה שגויים', 'error');
+      return;
+    }
+
+    // שמירת המשתמש המחובר
+    sessionStorage.setItem(
+      'loggedUser',
+      JSON.stringify({ username, role: users[username].role })
+    );
+
+    // עכשיו מציגים את ה־familySection במקום לעבור מיד
+    setupFamilySection(username, users);
+  });
+
+  function setupFamilySection(username, users) {
+    const familySection = document.getElementById("familySection");
+    const alreadyInFamily = document.getElementById("alreadyInFamily");
+    const joinFamilyForm = document.getElementById("joinFamilyForm");
+    const familyNameText = document.getElementById("familyNameText");
+    const familyCodeText = document.getElementById("familyCodeText");
+    const joinBtn = document.getElementById("joinFamilyBtn");
+
+    if (!familySection) return;
+    familySection.style.display = "block";
+
+    const user = users[username];
+
+    // אם כבר יש משפחה
+    if (user.familyCode) {
+      alreadyInFamily.style.display = "block";
+      joinFamilyForm.style.display = "none";
+
+      familyNameText.textContent = user.familyName;
+      familyCodeText.textContent = user.familyCode;
+
+      // מעבר לדף הבית אחרי 1 שניה
+      setTimeout(() => {
+        const role = user.role;
+        window.location.href = role === 'admin' ? 'admin.html' : 'home.html';
+      }, 1000);
+
+      return;
+    }
+
+    // אם אין משפחה – מאפשרים להצטרף
+    alreadyInFamily.style.display = "none";
+    joinFamilyForm.style.display = "block";
+
+    joinBtn.onclick = () => {
+      const code = document.getElementById("joinFamilyCode").value.trim();
+      if (!code) {
+        showMessage("יש להזין קוד משפחה", "error");
+        return;
+      }
+
+      const familyOwner = Object.values(users).find(
+        u => u.familyCode === code
+      );
+
+      if (!familyOwner) {
+        showMessage("❌ קוד משפחה שגוי", "error");
+        return;
+      }
+
+ 
+
+
+      // צירוף המשתמש למשפחה
+      user.familyCode = familyOwner.familyCode;
+      user.familyName = familyOwner.familyName;
+      saveUsers(users);
+
+      showMessage("✅ הצטרפת למשפחה בהצלחה", "success");
+
+      alreadyInFamily.style.display = "block";
+      joinFamilyForm.style.display = "none";
+      familyNameText.textContent = familyOwner.familyName;
+      familyCodeText.textContent = familyOwner.familyCode;
+
+      // מעבר לדף הבית אחרי 1.2 שניות
+      setTimeout(() => {
+        const role = user.role;
+        window.location.href = role === 'admin' ? 'admin.html' : 'home.html';
+      }, 1200);
+    };
+  }
+
 });
+
 
