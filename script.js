@@ -1,11 +1,8 @@
-import { doc, getDoc, setDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
+import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-firestore.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-
-  const db = window.db;
   const ADMIN_SECRET = "1209";
 
-  // אלמנטים
   const registerForm = document.getElementById('registerForm');
   const toggleFamilyBtn = document.getElementById('toggleFamily');
   const familyContainer = document.getElementById('familyContainer');
@@ -13,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const passwordInput = document.getElementById('password');
   const roleSelect = document.getElementById('role');
   const adminCodeContainer = document.getElementById('adminCodeContainer');
-  const messageDiv = document.getElementById('message');
+  const db = window.db;
 
   // הצגת/הסתר סיסמה
   togglePasswordBtn.addEventListener("click", () => {
@@ -31,25 +28,25 @@ document.addEventListener("DOMContentLoaded", () => {
     adminCodeContainer.style.display = roleSelect.value === "admin" ? "block" : "none";
   });
 
-  // הצגת שדות משפחה
+  // הצגת שדות יצירת משפחה
   toggleFamilyBtn.addEventListener("click", () => {
     familyContainer.style.display = familyContainer.style.display === 'block' ? 'none' : 'block';
   });
 
-  // הצגת הודעות
   function showMessage(msg, type) {
-    messageDiv.textContent = msg;
-    messageDiv.className = 'message ' + (type === 'error' ? 'error' : 'success');
+    const msgDiv = document.getElementById('message');
+    msgDiv.textContent = msg;
+    msgDiv.className = 'message ' + (type === 'error' ? 'error' : 'success');
   }
 
-  // הרשמה
-  registerForm.addEventListener('submit', async (e) => {
+  registerForm.addEventListener('submit', async e => {
     e.preventDefault();
 
     const username = document.getElementById('username').value.trim();
     const password = passwordInput.value.trim();
     const role = roleSelect.value;
     const adminCode = document.getElementById('adminCode').value.trim();
+
     const familyName = document.getElementById('familyName').value.trim();
     const familyCode = document.getElementById('familyCode').value.trim();
 
@@ -58,39 +55,35 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if(role === 'admin' && adminCode !== ADMIN_SECRET){
+    // בדיקה למנהל
+    if (role === 'admin' && adminCode !== ADMIN_SECRET) {
       showMessage('סיסמא למנהל שגויה!', 'error');
       return;
     }
 
-    // בדיקה אם שם משתמש קיים ב-Firestore
+    // בדיקה אם שם המשתמש קיים
     const userRef = doc(db, "users", username);
     const userSnap = await getDoc(userRef);
-    if(userSnap.exists()){
+    if (userSnap.exists()) {
       showMessage('שם המשתמש כבר קיים', 'error');
       return;
     }
 
     // בדיקה ייחודיות משפחה
-    if(familyName){
-      const familiesSnap = await getDocs(collection(db, "users"));
-      const nameExists = familiesSnap.docs.some(doc => doc.data().familyName === familyName);
-      if(nameExists){
-        showMessage('שם המשפחה כבר קיים', 'error');
-        return;
-      }
-    }
-
-    if(familyCode){
-      const familiesSnap = await getDocs(collection(db, "users"));
-      const codeExists = familiesSnap.docs.some(doc => doc.data().familyCode === familyCode);
-      if(codeExists){
+    if (familyCode) {
+      const familyRef = doc(db, "families", familyCode);
+      const familySnap = await getDoc(familyRef);
+      if (familySnap.exists()) {
         showMessage('קוד המשפחה כבר בשימוש', 'error');
         return;
       }
     }
 
-    // שמירת המשתמש ב-Firebase
+    if (familyName && familyCode) {
+      await setDoc(doc(db, "families", familyCode), { familyName });
+    }
+
+    // יצירת משתמש
     await setDoc(userRef, {
       password,
       role,
@@ -109,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
     adminCodeContainer.style.display = 'none';
     togglePasswordBtn.textContent = "👀";
   });
-
 });
-;
+
 
